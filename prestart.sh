@@ -11,6 +11,3 @@ fi
 if [ $SONAR_PASSWORD ]; then
     sed -i "s/password/$SONAR_PASSWORD/g" config.ini
 fi
-
-# Run exporter
-.local/bin/uwsgi --http 0.0.0.0:${SONAR_EXPORTER_PORT:-9119} --wsgi-file main.py --callable app
