@@ -68,7 +68,8 @@ def get_list_projects(sonar):
 
     response = sonar.req.do_get(url)
     if response.status_code != 200:
-        return projects, project_info, list_status
+        print(response.text)
+    response.raise_for_status()
 
     raw_data = response.json()
 
@@ -86,7 +87,8 @@ def get_list_projects(sonar):
 
         response = sonar.req.do_get(url, params=params)
         if response.status_code != 200:
-            continue
+            print(response.text)
+        response.raise_for_status()
 
         page_data = response.json()
 
@@ -121,6 +123,9 @@ def standardize_project_info(project, sonar):
     params = {'projectKey': project_key}
 
     response = sonar.req.do_get(url=url, params=params)
+    if response.status_code != 200:
+        print(response.text)
+    response.raise_for_status()
     raw_data = response.json()
 
     if 'errors' in raw_data:
