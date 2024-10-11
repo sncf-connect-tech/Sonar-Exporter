@@ -1,18 +1,15 @@
-import configparser
-
+import os
 from prometheus_client import make_wsgi_app
 from prometheus_client.core import REGISTRY
 from flask import Flask
 from werkzeug.middleware.dispatcher import DispatcherMiddleware
 from sonar.sonar import SonarCollector
 
-# Import configuration file
-config = configparser.ConfigParser()
-config.read("config.ini")
+# Get credentials & environment
 sonar_collector = SonarCollector(
-    server=config['DEFAULT']['SONAR_SERVER'],
-    user=config['DEFAULT']['SONAR_USERNAME'],
-    passwd=config['DEFAULT']['SONAR_PASSWORD']
+    server=os.environ.get("SONAR_SERVER", "http://sonar_server"),
+    user=os.environ.get("SONAR_USERNAME", "username"),
+    passwd=os.environ.get("SONAR_PASSWORD", "password")
 )
 REGISTRY.register(sonar_collector)
 
