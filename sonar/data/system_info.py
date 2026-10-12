@@ -58,7 +58,7 @@ def get_system_data(sonar):
 
     raw_data = response.json()
 
-    web_source = raw_data['Web JVM State']
+    web_source = raw_data['Application Nodes']['0']['Web JVM State']
     web['memory'] = {}
     web['threads'] = web_source['Threads']
     web['memory']['max'] = web_source['Max Memory (MB)'] \
@@ -66,7 +66,7 @@ def get_system_data(sonar):
     web['memory']['free'] = web_source['Free Memory (MB)'] \
         * 1024 * 1024
 
-    compute_source = raw_data['Compute Engine JVM State']
+    compute_source = raw_data['Application Nodes']['0']['Compute Engine JVM State']
     compute['memory'] = {}
     compute['threads'] = compute_source['Threads']
     compute['memory']['max'] = \
@@ -74,7 +74,7 @@ def get_system_data(sonar):
     compute['memory']['free'] = \
         compute_source['Free Memory (MB)'] * 1024 * 1024
 
-    search_source = raw_data['Search State']
+    search_source = raw_data['Search Nodes']['0']['Search State']
     search['disk_available'] = convert(search_source['Disk Available'])
     search['file_descriptors'] = {}
     search['file_descriptors']['open'] = \
